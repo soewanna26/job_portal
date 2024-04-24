@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
     <!-- Fav Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="#" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body data-instant-intensity="mousedown">
@@ -51,6 +52,14 @@
     <script src="{{ asset('assets/js/slick.min.js') }}"></script>
     <script src="{{ asset('assets/js/lightbox.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+    @yield('customJs')
 </body>
 
 </html>
