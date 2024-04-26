@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
+Route::get('/job/detail/{id}', [JobController::class, 'detail'])->name('jobDetail');
 
 Route::group(['prefix' => 'account'], function () {
 
@@ -33,6 +36,9 @@ Route::group(['prefix' => 'account'], function () {
 
         Route::get("/create-job", [AccountController::class, 'createJob'])->name('account.createJob');
         Route::post("/save-job", [AccountController::class, 'saveJob'])->name('account.saveJob');
-        Route::get("/get-job", [AccountController::class, 'myJob'])->name('account.myJob');
+        Route::get("/my-job", [AccountController::class, 'myJob'])->name('account.myJob');
+        Route::get("/my-job/edit/{jobId}", [AccountController::class, 'editJob'])->name('account.editJob');
+        Route::put("/update-job/{jobId}", [AccountController::class, 'updateJob'])->name('account.updateJob');
+        Route::post('/deleteJob',[AccountController::class, 'deleteJob'])->name('account.deleteJob');
     });
 });
