@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Job;
+use App\Models\JobApplication;
 use App\Models\JobType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
 {
@@ -60,13 +63,66 @@ class JobController extends Controller
 
     public function detail($id)
     {
-        $job = Job::where(['id' => $id,'status' => 1])->with(['jobType','category'])->first();
+        $job = Job::where(['id' => $id, 'status' => 1])->with(['jobType', 'category'])->first();
 
-        if($job == null){
+        if ($job == null) {
             abort(404);
         }
-        return view('front.jobDetail',[
+        return view('front.jobDetail', [
             'job' => $job
+        ]);
+    }
+
+    public function applyJob(Request $request)
+    {
+        $id = $request->id;
+        $job = Job::where(['id' => $id])->first();
+
+        // Job does not found db
+        if ($job == null) {
+            session()->flash('error', 'Job does not exist');
+            return response()->json([
+                'status' => false,
+                'message' => 'Job does not exist',
+            ]);
+        };
+
+        //You can not apply on this job twice
+        $jobApplicationCount = JobApplication::where(
+            [
+                'user_id' => Auth::user()->id,
+                'job_id' => $id
+            ]
+        )->count();
+        if ($jobApplicationCount > 0) {
+            session()->flash('error', 'You already applied on this job');
+            return response()->json([
+                'status' => false,
+                'message' => 'You already applied on this job',
+            ]);
+        }
+
+        //you can not apply on your own job
+        $employer_id = $job->user_id;
+        if ($employer_id == Auth::user()->id) {
+            session()->flash('error', 'You can not apply on your own job');
+            return response()->json([
+                'status' => false,
+                'message' => 'You can not apply on your own job'
+            ]);
+        };
+
+        $application = new JobApplication();
+        $application->job_id = $id;
+        $application->user_id = Auth::user()->id;
+        $application->employer_id = $employer_id;
+        $application->applied_date = now();
+        $application->save();
+
+        session()->flash('success', 'You have successfully applied');
+        return response()->json([
+            'status' => false,
+            'message' => 'You have successfully applied'
         ]);
     }
 }

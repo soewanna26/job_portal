@@ -18,6 +18,7 @@
         <div class="container job_details_area">
             <div class="row pb-5">
                 <div class="col-md-8">
+                    @include('front.message')
                     <div class="card shadow border-0">
                         <div class="job_details_header">
                             <div class="single_jobs white-bg d-flex justify-content-between">
@@ -71,7 +72,12 @@
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
                                 <a href="#" class="btn btn-secondary">Save</a>
-                                <a href="#" class="btn btn-primary">Apply</a>
+                                @if (Auth::check())
+                                    <a href="#" onClick="applyJob({{ $job->id }})"
+                                        class="btn btn-primary">Apply</a>
+                                @else
+                                    <a href="javascript:viod(0);" class="btn btn-primary disabled">Login to Apply</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -125,4 +131,26 @@
             </div>
         </div>
     </section>
+@endsection
+@section('customJs')
+    <script type="text/javascript">
+        function applyJob(id) {
+            if (confirm("Are you want to apply on this job?")) {
+                $.ajax({
+                    url: '{{ route("applyJob") }}',
+                    type: "post",
+                    data: {
+                        id: id
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        window.location.href = "{{ url()->current() }}";
+                    },
+                    error: function(jqXHR, execption) {
+                        console.log("something went wrong");
+                    }
+                });
+            }
+        }
+    </script>
 @endsection
