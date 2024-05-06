@@ -11,6 +11,11 @@
     <meta name="pinterest" content="nopin" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
+
+    {{-- trunbowyg --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"
+        integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Fav Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="#" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -53,31 +58,36 @@
     <script src="{{ asset('assets/js/slick.min.js') }}"></script>
     <script src="{{ asset('assets/js/lightbox.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"
+        integrity="sha512-YJgZG+6o3xSc0k5wv774GS+W1gx0vuSI/kr0E0UylL/Qg/noNspPtYwHPN9q6n59CTR/uhgXfjDXLTRI+uIryg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+        $('.textarea').trumbowyg();
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        $("#profilePicForm").submit(function(e){
+        $("#profilePicForm").submit(function(e) {
             e.preventDefault();
             var formData = new FormData(this);
 
             $.ajax({
-                url: '{{ route("account.updateProfilePic") }}',
+                url: '{{ route('account.updateProfilePic') }}',
                 type: "post",
                 data: formData,
                 dataType: "json",
                 contentType: false,
                 processData: false,
-                success: function(response){
-                    if(response.status == false){
+                success: function(response) {
+                    if (response.status == false) {
                         var errors = response.errors;
-                        if(errors.image){
+                        if (errors.image) {
                             $("#image-error").html(errors.image);
                         }
-                    }else{
+                    } else {
                         window.location.href = "{{ url()->current() }}";
                     }
                 }

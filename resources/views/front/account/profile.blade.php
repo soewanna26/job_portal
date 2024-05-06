@@ -53,24 +53,32 @@
                     </div>
 
                     <div class="card border-0 shadow mb-4">
-                        <div class="card-body p-4">
-                            <h3 class="fs-4 mb-1">Change Password</h3>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Old Password*</label>
-                                <input type="password" placeholder="Old Password" class="form-control">
+                        <form action="" method="post" id="changePasswordForm" name="changePasswordForm">
+                            <div class="card-body p-4">
+                                <h3 class="fs-4 mb-1">Change Password</h3>
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">Old Password*</label>
+                                    <input type="password" name="old_password" id="old_password" placeholder="Old Password"
+                                        class="form-control">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">New Password*</label>
+                                    <input type="password" name="new_password" id="new_password" placeholder="New Password"
+                                        class="form-control">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">Confirm Password*</label>
+                                    <input type="password" name="confirm_password" id="confirm_password"
+                                        placeholder="Confirm Password" class="form-control">
+                                    <p></p>
+                                </div>
                             </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">New Password*</label>
-                                <input type="password" placeholder="New Password" class="form-control">
+                            <div class="card-footer  p-4">
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Confirm Password*</label>
-                                <input type="password" placeholder="Confirm Password" class="form-control">
-                            </div>
-                        </div>
-                        <div class="card-footer  p-4">
-                            <button type="button" class="btn btn-primary">Update</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -112,6 +120,62 @@
                         } else {
                             $("#email").siblings("p").removeClass("invalid-feedback").html('');
                             $("#email").removeClass('is-invalid');
+                        }
+                    }
+                },
+                error: function(jqXHR, execption) {
+                    console.log("something went wrong");
+                }
+            })
+        })
+        $("#changePasswordForm").submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '{{ route('account.updatePassword') }}',
+                type: "post",
+                data: $(this).serializeArray(),
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == true) {
+                        $("#old_password").siblings("p").removeClass("invalid-feedback").html('');
+                        $("#old_password").removeClass('is-invalid');
+
+                        $("#new_password").siblings("p").removeClass("invalid-feedback").html('');
+                        $("#new_password").removeClass('is-invalid');
+
+                        $("#confirm_password").siblings("p").removeClass("invalid-feedback").html('');
+                        $("#confirm_password").removeClass('is-invalid');
+
+                        window.location.href = "{{ route('account.profile') }}";
+                    } else {
+                        var errors = response.errors;
+                        if (errors.old_password) {
+                            $("#old_password").siblings("p").addClass("invalid-feedback").html(errors
+                                .old_password);
+                            $("#old_password").addClass('is-invalid');
+                        } else {
+                            $("#old_password").siblings("p").removeClass("invalid-feedback").html('');
+                            $("#old_password").removeClass('is-invalid');
+                        }
+
+                        if (errors.new_password) {
+                            $("#new_password").siblings("p").addClass("invalid-feedback").html(errors
+                                .new_password);
+                            $("#new_password").addClass('is-invalid');
+                        } else {
+                            $("#new_password").siblings("p").removeClass("invalid-feedback").html('');
+                            $("#new_password").removeClass('is-invalid');
+                        }
+
+                        if (errors.confirm_password) {
+                            $("#confirm_password").siblings("p").addClass("invalid-feedback").html(
+                                errors.confirm_password);
+                            $("#confirm_password").addClass('is-invalid');
+                        } else {
+                            $("#confirm_password").siblings("p").removeClass("invalid-feedback").html(
+                                '');
+                            $("#confirm_password").removeClass('is-invalid');
                         }
                     }
                 },

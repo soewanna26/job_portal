@@ -10025,3 +10025,18 @@ footer .nav-link {
     background : #00D363 !important;
     color: #fff !important;
 }
+
+.trumbowyg-editor ul li{
+    list-style : disc !important;
+}
+
+.dashboard {
+    height:400px !important;
+    justify-content:center !important;
+    align-items:center !important;
+    display: flex !important;
+}
+
+.pagination span{
+    font-size: inherit !important;
+}

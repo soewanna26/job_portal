@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\JobController as AdminJobController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +26,15 @@ Route::get('/job/detail/{id}', [JobController::class, 'detail'])->name('jobDetai
 Route::post('/apply-job', [JobController::class, 'applyJob'])->name('applyJob');
 Route::post('/save-job', [JobController::class, 'saveJob'])->name('saveJob');
 
+Route::group(['prefix' => 'admin','middleware' => 'checkRole'], function(){
+    Route::get('/dashborad', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+    Route::get('/users/{id}', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/delete',[UserController::class, 'destroy'])->name('admin.users.destroy');
+
+    Route::get('/jobs',[AdminJobController::class, 'index'])->name('admin.jobs');
+});
 Route::group(['prefix' => 'account'], function () {
 
     Route::group(['middleware' => 'guest'], function () {
@@ -33,6 +46,7 @@ Route::group(['prefix' => 'account'], function () {
     Route::group(['middleware' => 'auth'], function () {
         Route::get("/profile", [AccountController::class, 'profile'])->name('account.profile');
         Route::put("/update-profile", [AccountController::class, 'updateProfile'])->name('account.updateProfile');
+        Route::post("/update-password", [AccountController::class, 'updatePassword'])->name('account.updatePassword');
         Route::post("/update-profile-pic", [AccountController::class, 'updateProfilePic'])->name('account.updateProfilePic');
         Route::get("/logout", [AccountController::class, 'logout'])->name('account.logout');
 
