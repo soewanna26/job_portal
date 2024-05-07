@@ -7,27 +7,27 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Account Settings</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                            <li class="breadcrumb-item active">Post Job</li>
                         </ol>
                     </nav>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3">
-                    @include('front.account.sidebar')
+                    @include('admin.sidebar')
                 </div>
                 <div class="col-lg-9">
                     @include('front.message')
                     <div class="card border-0 shadow mb-4">
-                        <form action="" name="editJobForm" id="editJobForm" method="post">
+                        <form action="" name="saveJobForm" id="saveJobForm" method="post">
                             <div class="card-body card-form p-4">
-                                <h3 class="fs-4 mb-1">Edit Job Details</h3>
+                                <h3 class="fs-4 mb-1">Post Job</h3>
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label for="" class="mb-2">Title<span class="req">*</span></label>
                                         <input type="text" placeholder="Job Title" id="title" name="title"
-                                            value="{{ $job->title }}" class="form-control">
+                                            class="form-control">
                                         <p></p>
                                     </div>
                                     <div class="col-md-6  mb-4">
@@ -36,8 +36,7 @@
                                             <option value="">Select a Category</option>
                                             @if ($categories->isNotEmpty())
                                                 @foreach ($categories as $category)
-                                                    <option {{ $job->category_id == $category->id ? 'selected' : '' }}
-                                                        value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -52,8 +51,7 @@
                                             <option value="">Select a Job Nature</option>
                                             @if ($jobTypes->isNotEmpty())
                                                 @foreach ($jobTypes as $jobType)
-                                                    <option {{ $job->job_type_id == $jobType->id ? 'selected' : '' }}
-                                                        value="{{ $jobType->id }}">{{ $jobType->name }}</option>
+                                                    <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -62,7 +60,7 @@
                                     <div class="col-md-6  mb-4">
                                         <label for="" class="mb-2">Vacancy<span class="req">*</span></label>
                                         <input type="number" min="1" placeholder="Vacancy" id="vacancy"
-                                            name="vacancy" class="form-control" value="{{ $job->vacancy }}">
+                                            name="vacancy" class="form-control">
                                         <p></p>
                                     </div>
                                 </div>
@@ -71,13 +69,13 @@
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Salary</label>
                                         <input type="text" placeholder="Salary" id="salary" name="salary"
-                                            value="{{ $job->salary }}" class="form-control">
+                                            class="form-control">
                                     </div>
 
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Location<span class="req">*</span></label>
                                         <input type="text" placeholder="location" id="location" name="location"
-                                            value="{{ $job->location }}" class="form-control">
+                                            class="form-control">
                                         <p></p>
                                     </div>
                                 </div>
@@ -85,37 +83,37 @@
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Description<span class="req">*</span></label>
                                     <textarea class="textarea" name="description" id="description" cols="5" rows="5"
-                                        placeholder="Description">{{ $job->description }}</textarea>
+                                        placeholder="Description"></textarea>
                                     <p></p>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Benefits</label>
-                                    <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits">{{ $job->benefits }}</textarea>
+                                    <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits"></textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Responsibility</label>
                                     <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5"
-                                        placeholder="Responsibility">{{ $job->responsibility }}</textarea>
+                                        placeholder="Responsibility"></textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Qualifications</label>
                                     <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5"
-                                        placeholder="Qualifications">{{ $job->qualifications }}</textarea>
+                                        placeholder="Qualifications"></textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Experience</label>
                                     <select name="experience" id="experience">
-                                        <option value="1" {{ $job->experience == 1 ? 'selected' : ''}}>1 Year</option>
-                                        <option value="2" {{ $job->experience == 2 ? 'selected' : ''}}>2 Years</option>
-                                        <option value="3" {{ $job->experience == 3 ? 'selected' : ''}}>3 Years</option>
-                                        <option value="4" {{ $job->experience == 4 ? 'selected' : ''}}>4 Years</option>
-                                        <option value="5" {{ $job->experience == 5 ? 'selected' : ''}}>5 Years</option>
-                                        <option value="6" {{ $job->experience == 6 ? 'selected' : ''}}>6 Years</option>
-                                        <option value="7" {{ $job->experience == 7 ? 'selected' : ''}}>7 Years</option>
-                                        <option value="8" {{ $job->experience == 8 ? 'selected' : ''}}>8 Years</option>
-                                        <option value="9" {{ $job->experience == 9 ? 'selected' : ''}}>9 Years</option>
-                                        <option value="10" {{ $job->experience == 10 ? 'selected' : ''}}>10 Years</option>
-                                        <option value="10_plus" {{ $job->experience == '10_plus' ? 'selected' : ''}}>10+ Years</option>
+                                        <option value="1">1 Year</option>
+                                        <option value="2">2 Years</option>
+                                        <option value="3">3 Years</option>
+                                        <option value="4">4 Years</option>
+                                        <option value="5">5 Years</option>
+                                        <option value="6">6 Years</option>
+                                        <option value="7">7 Years</option>
+                                        <option value="8">8 Years</option>
+                                        <option value="9">9 Years</option>
+                                        <option value="10">10 Years</option>
+                                        <option value="10_plus">10+ Years</option>
                                     </select>
                                     <p></p>
                                 </div>
@@ -125,7 +123,7 @@
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Keywords<span class="req">*</span></label>
                                     <input type="text" placeholder="keywords" id="keywords" name="keywords"
-                                       value="{{ $job->keywords }}" class="form-control">
+                                        class="form-control">
                                 </div>
 
                                 <h3 class="fs-4 mb-1 mt-5 border-top pt-5">Company Details</h3>
@@ -134,25 +132,25 @@
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Name<span class="req">*</span></label>
                                         <input type="text" placeholder="Company Name" id="company_name"
-                                           value="{{ $job->company_name }}" name="company_name" class="form-control">
+                                            name="company_name" class="form-control">
                                         <p></p>
                                     </div>
 
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Location</label>
                                         <input type="text" placeholder="Location" id="company_location"
-                                           value="{{ $job->company_location }}" name="company_location" class="form-control">
+                                            name="company_location" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Website</label>
                                     <input type="text" placeholder="Website" id="company_website"
-                                       value="{{ $job->company_website }}" name="company_website" class="form-control">
+                                        name="company_website" class="form-control">
                                 </div>
                             </div>
                             <div class="card-footer  p-4">
-                                <button type="submit" class="btn btn-primary">Update Job</button>
+                                <button type="submit" class="btn btn-primary">Save Job</button>
                             </div>
                         </form>
                     </div>
@@ -163,17 +161,17 @@
 @endsection
 @section('customJs')
     <script type="text/javascript">
-        $("#editJobForm").submit(function(e) {
+        $("#saveJobForm").submit(function(e) {
             e.preventDefault();
             $("button[type='submit']").prop('disabled', true);
             $.ajax({
-                url: '{{ route("account.updateJob",$job->id) }}',
-                type: "put",
+                url: '{{ route('admin.saveJob') }}',
+                type: "post",
                 data: $(this).serializeArray(),
                 dataType: "json",
                 success: function(response) {
+                    $("button[type='submit']").prop('disabled', false);
                     if (response.status == true) {
-                        $("button[type='submit']").prop('disabled', false);
                         $("#title").siblings("p").removeClass("invalid-feedback").html('');
                         $("#title").removeClass('is-invalid');
 
@@ -199,7 +197,7 @@
                         $("#company_name").removeClass('is-invalid');
 
 
-                        window.location.href = "{{ route('account.myJob') }}";
+                        window.location.href = "{{ route('admin.jobs') }}";
                     } else {
                         var errors = response.errors;
                         if (errors.title) {

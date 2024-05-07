@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow py-3">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">CareerVibe</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Smart Career</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
                     <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}"
                         type="submit">Account</a>
                 @endif
-                <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Post a Job</a>
+                {{-- <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Post a Job</a> --}}
             </div>
         </div>
     </nav>

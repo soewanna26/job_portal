@@ -7,7 +7,7 @@
                     <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item active">User</li>
+                            <li class="breadcrumb-item active">Job Applications</li>
                         </ol>
                     </nav>
                 </div>
@@ -22,7 +22,7 @@
                         <div class="card-body card-form">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h3 class="fs-4 mb-1">Users</h3>
+                                    <h3 class="fs-4 mb-1">Job Applications</h3>
                                 </div>
                                 <div style="margin-top: -10px;">
                                 </div>
@@ -32,23 +32,26 @@
                                 <table class="table ">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Mobile</th>
+                                            <th scope="col">Job Title</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Employer</th>
+                                            <th scope="col">Applied Date</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="border-0">
-                                        @if ($users->isNotEmpty())
-                                            @foreach ($users as $user)
+                                        @if ($applications->isNotEmpty())
+                                            @foreach ($applications as $application)
                                                 <tr class="active">
-                                                    <td>{{ $user->id }}</td>
                                                     <td>
-                                                        <div class="job-name fw-500">{{ $user->name }}</div>
+                                                        <div class="job-name fw-500">{{ $application->job->title }}</div>
+                                                        {{-- <div class="info1">Applications : {{ $job->applications->count() }}
+                                                        </div> --}}
                                                     </td>
-                                                    <td>{{ $user->email }}</td>
-                                                    <td>{{ $user->mobile ? $user->mobile : ' - ' }}</td>
+                                                    <td>{{ $application->user->name }}</td>
+                                                    <td>{{ $application->employer->name }}</td>
+
+                                                    <td>{{ \Carbon\Carbon::parse($application->applied_date)->format('d M, Y') }}</td>
                                                     <td>
                                                         <div class="action-dots">
                                                             <button href="#" class="btn" data-bs-toggle="dropdown"
@@ -56,12 +59,12 @@
                                                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                                <li><a class="dropdown-item"
-                                                                        href="{{ route('admin.users.edit', $user->id) }}"><i
+                                                                {{-- <li><a class="dropdown-item"
+                                                                        href="#"><i
                                                                             class="fa fa-edit" aria-hidden="true"></i>
-                                                                        Edit</a></li>
+                                                                        Edit</a></li> --}}
                                                                 <li><a class="dropdown-item" href="#"
-                                                                        onclick="deleteUser({{ $user->id }})">
+                                                                        onclick="deleteApplication({{ $application->id }})">
                                                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                                                         Delete</a></li>
                                                             </ul>
@@ -74,7 +77,7 @@
                                 </table>
                             </div>
                             <div>
-                                {{ $users->links() }}
+                                {{ $applications->links() }}
                             </div>
                         </div>
                     </div>
@@ -85,15 +88,17 @@
 @endsection
 @section('customJs')
     <script type="text/javascript">
-        function deleteUser(id) {
+        function deleteApplication(id) {
             if (confirm("Are you sure you want to delete")) {
                 $.ajax({
-                    url: "{{ route('admin.users.destroy') }}",
+                    url: "{{ route('admin.job-applications.destroy') }}",
                     type: "delete",
-                    data: {id : id},
+                    data: {
+                        id: id
+                    },
                     dataType: "json",
                     success: function(response) {
-                        window.location.href = "{{ route('admin.users') }}";
+                        window.location.href = "{{ route('admin.job-applications') }}";
                     }
                 })
             }

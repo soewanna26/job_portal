@@ -6,7 +6,7 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                             <li class="breadcrumb-item active">Jobs</li>
                         </ol>
                     </nav>
@@ -35,6 +35,7 @@
                                             <th scope="col">ID</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Created By</th>
+                                            <th scope="col">Status</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -45,13 +46,18 @@
                                                 <tr class="active">
                                                     <td>{{ $job->id }}</td>
                                                     <td>
-                                                    <td>
                                                         <div class="job-name fw-500">{{ $job->title }}</div>
                                                         <div class="info1">Applications : {{ $job->applications->count() }}
                                                         </div>
                                                     </td>
-                                                    </td>
                                                     <td>{{ $job->user->name }}</td>
+                                                    <td>
+                                                        @if ($job->status == 1)
+                                                            <p class="text-success">Active</p>
+                                                        @else
+                                                        <p class="text-danger">Block</p>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</td>
                                                     <td>
                                                         <div class="action-dots">
@@ -59,16 +65,16 @@
                                                                 aria-expanded="false">
                                                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                             </button>
-                                                            {{-- <ul class="dropdown-menu dropdown-menu-end">
+                                                            <ul class="dropdown-menu dropdown-menu-end">
                                                                 <li><a class="dropdown-item"
-                                                                        href="{{ route('admin.jobs.edit', $user->id) }}"><i
+                                                                        href="{{ route('admin.jobs.edit', $job->id) }}"><i
                                                                             class="fa fa-edit" aria-hidden="true"></i>
                                                                         Edit</a></li>
                                                                 <li><a class="dropdown-item" href="#"
-                                                                        onclick="deleteUser({{ $user->id }})">
+                                                                        onclick="deleteJob({{ $job->id }})">
                                                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                                                         Delete</a></li>
-                                                            </ul> --}}
+                                                            </ul>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -89,17 +95,17 @@
 @endsection
 @section('customJs')
     <script type="text/javascript">
-        function deleteUser(id) {
+        function deleteJob(id) {
             if (confirm("Are you sure you want to delete")) {
                 $.ajax({
-                    url: "{{ route('admin.users.destroy') }}",
+                    url: "{{ route('admin.jobs.destroy') }}",
                     type: "delete",
                     data: {
                         id: id
                     },
                     dataType: "json",
                     success: function(response) {
-                        window.location.href = "{{ route('admin.users') }}";
+                        window.location.href = "{{ route('admin.jobs') }}";
                     }
                 })
             }

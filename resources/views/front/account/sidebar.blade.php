@@ -24,12 +24,6 @@
                 <a href="{{ route('account.profile') }}">Account Settings</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="{{ route('account.createJob') }}">Post a Job</a>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="{{ route('account.myJob') }}">My Jobs</a>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route('account.myJobApplications') }}">Jobs Applied</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">

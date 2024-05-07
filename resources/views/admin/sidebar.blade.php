@@ -5,10 +5,13 @@
                 <a href="{{ route('admin.users') }}">Users</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <a href="{{ route('admin.createJob') }}">Post a Job</a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route('admin.jobs') }}">Job</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="#">Job Applications</a>
+                <a href="{{ route('admin.job-applications') }}">Job Applications</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route('account.logout') }}">Logout</a>

@@ -6,8 +6,9 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active">User Edit</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.users') }}">User</a></li>
+                            <li class="breadcrumb-item active">Edit User</li>
                         </ol>
                     </nav>
                 </div>
@@ -20,9 +21,16 @@
                     @include('front.message')
                     <div class="card border-0 shadow mb-4 p-3">
                         <div class="card-body card-form">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h3 class="fs-4 mb-1">Edit User</h3>
+                                </div>
+                                <div style="margin-top: -10px;">
+                                </div>
+
+                            </div>
                             <form action="" id="userForm" name="userForm" method="post">
-                                <div class="card-body  p-4">
-                                    <h3 class="fs-4 mb-1">User Profile</h3>
+                                <div class="card-body p-4">
                                     <div class="mb-4">
                                         <label for="" class="mb-2">Name*</label>
                                         <input type="text" name="name" id="name" placeholder="Enter Name"
@@ -63,7 +71,7 @@
             e.preventDefault();
 
             $.ajax({
-                url: '{{ route("admin.users.update",$user->id) }}',
+                url: '{{ route('admin.users.update', $user->id) }}',
                 type: "put",
                 data: $(this).serializeArray(),
                 dataType: "json",
